@@ -20,7 +20,7 @@
   ],
   "require": {
     "php": "^8.0",
-    "filament/filament": "^3",
+    "filament/filament": "^3.2",
     "filament/notifications": "^3.0",
     "illuminate/contracts": "^10|^11",
     "illuminate/support": "^10|^11",
@@ -60,7 +60,7 @@
       "phpstan/extension-installer": true
     }
   },
-  "minimum-stability": "dev",
+  "minimum-stability": "stable",
   "prefer-stable": true,
   "extra": {
     "laravel": {
