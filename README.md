@@ -1,5 +1,3 @@
-![Screenshot of Login](./art/screenshot.png)
-
 # Filament Plugin for Import CSV and XLS into Database
 
 This package will make it easier for you to import from files to your model, very easily without the need to do templates.
