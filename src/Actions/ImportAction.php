@@ -33,6 +33,8 @@ class ImportAction extends Action
 
     protected bool $shouldHandleBlankRows = false;
 
+    protected bool $shouldSendDefaultNotification = true;
+
     protected array $cachedHeadingOptions = [];
 
     protected ?Closure $handleRecordCreation = null;
@@ -46,7 +48,7 @@ class ImportAction extends Action
     {
         parent::setUp();
 
-        $this->label(fn (): string => __('filament-import::actions.import'));
+        $this->label(fn(): string => __('filament-import::actions.import'));
 
         $this->setInitialForm();
 
@@ -70,6 +72,7 @@ class ImportAction extends Action
                     ->skipHeader((bool) $data['skipHeader'])
                     ->massCreate($this->shouldMassCreate)
                     ->handleBlankRows($this->shouldHandleBlankRows)
+                    ->sendDefaultNotification($this->shouldSendDefaultNotification)
                     ->mutateBeforeCreate($this->mutateBeforeCreate)
                     ->mutateAfterCreate($this->mutateAfterCreate)
                     ->handleRecordCreation($this->handleRecordCreation)
@@ -97,16 +100,23 @@ class ImportAction extends Action
         return $this;
     }
 
+    public function sendDefaultNotification($shouldSendDefaultNotification = true): static
+    {
+        $this->shouldSendDefaultNotification = $shouldSendDefaultNotification;
+
+        return $this;
+    }
+
     /**
      * @return $this
      */
     public function fields(array $fields, int $columns = 1): static
     {
-        $this->fields = collect($fields)->mapWithKeys(fn ($item) => [$item->getName() => $item])->toArray();
+        $this->fields = collect($fields)->mapWithKeys(fn($item) => [$item->getName() => $item])->toArray();
 
         $fields = collect($fields);
 
-        $fields = $fields->map(fn (ImportField|Field $field) => $this->getFields($field))->toArray();
+        $fields = $fields->map(fn(ImportField|Field $field) => $this->getFields($field))->toArray();
 
         $this->form(
             array_merge(
@@ -164,7 +174,7 @@ class ImportAction extends Action
                 $options = $this->cachedHeadingOptions;
 
                 if (count($options) === 0) {
-                    $options = $this->toCollection($filePath, $this->temporaryDiskIsRemote() ? $this->getTemporaryDisk() : null)->first()?->first()->filter(fn ($value) => $value != null)->map('trim')->toArray();
+                    $options = $this->toCollection($filePath, $this->temporaryDiskIsRemote() ? $this->getTemporaryDisk() : null)->first()?->first()->filter(fn($value) => $value != null)->map('trim')->toArray();
                 }
 
                 $selected = array_search($field->getName(), $options);
