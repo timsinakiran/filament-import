@@ -40,6 +40,8 @@ class Import
 
     protected bool $shouldHandleBlankRows = false;
 
+    protected bool $shouldSendDefaultNotification = true;
+
     protected ?Closure $handleRecordCreation = null;
 
     public static function make(string $spreadsheetFilePath): self
@@ -100,6 +102,13 @@ class Import
     public function handleBlankRows($shouldHandleBlankRows = false): static
     {
         $this->shouldHandleBlankRows = $shouldHandleBlankRows;
+
+        return $this;
+    }
+
+    public function sendDefaultNotification($shouldSendDefaultNotification = true): static
+    {
+        $this->shouldSendDefaultNotification = $shouldSendDefaultNotification;
 
         return $this;
     }
@@ -222,22 +231,24 @@ class Import
             }
         });
 
-        if ($importSuccess) {
-            Notification::make()
-                ->success()
-                ->title(trans('filament-import::actions.import_succeeded_title'))
-                ->body(trans('filament-import::actions.import_succeeded', ['count' => count($this->getSpreadsheetData()), 'skipped' => $skipped]))
-                ->persistent()
-                ->send();
-        }
+        if($this->shouldSendDefaultNotification) {
+            if ($importSuccess) {
+                Notification::make()
+                    ->success()
+                    ->title(trans('filament-import::actions.import_succeeded_title'))
+                    ->body(trans('filament-import::actions.import_succeeded', ['count' => count($this->getSpreadsheetData()), 'skipped' => $skipped]))
+                    ->persistent()
+                    ->send();
+            }
 
-        if (! $importSuccess) {
-            Notification::make()
-                ->danger()
-                ->title(trans('filament-import::actions.import_failed_title'))
-                ->body(trans('filament-import::actions.import_failed'))
-                ->persistent()
-                ->send();
+            if (! $importSuccess) {
+                Notification::make()
+                    ->danger()
+                    ->title(trans('filament-import::actions.import_failed_title'))
+                    ->body(trans('filament-import::actions.import_failed'))
+                    ->persistent()
+                    ->send();
+            }
         }
     }
 }
