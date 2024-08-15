@@ -2,19 +2,6 @@
 
 # Filament Plugin for Import CSV and XLS into Database
 
-<a href="https://filamentadmin.com/docs/2.x/admin/installation">
-    <img alt="FILAMENT 2.x" src="https://img.shields.io/badge/FILAMENT-2.x-EBB304">
-</a>
-<a href="https://packagist.org/packages/konnco/filament-import">
-    <img alt="Packagist" src="https://img.shields.io/packagist/v/konnco/filament-import.svg?logo=packagist">
-</a>
-<a href="https://packagist.org/packages/konnco/filament-import">
-    <img alt="Downloads" src="https://img.shields.io/packagist/dt/konnco/filament-import.svg" >
-</a>
-
-[![Code Styles](https://github.com/konnco/filament-import/actions/workflows/php-cs-fixer.yml/badge.svg)](https://github.com/konnco/filament-import/actions/workflows/php-cs-fixer.yml)
-[![run-tests](https://github.com/konnco/filament-import/actions/workflows/run-tests.yml/badge.svg)](https://github.com/konnco/filament-import/actions/workflows/run-tests.yml)
-
 This package will make it easier for you to import from files to your model, very easily without the need to do templates.
 
 all you have to do is drag and drop and match the fields and columns of your file, and let magic happens!
@@ -24,7 +11,7 @@ all you have to do is drag and drop and match the fields and columns of your fil
 You can install the package via composer:
 
 ```bash
-composer require konnco/filament-import
+composer require timsinakiran/filament-import
 ```
 
 ## Publishing Config
