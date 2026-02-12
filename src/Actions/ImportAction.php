@@ -5,9 +5,9 @@ namespace Konnco\FilamentImport\Actions;
 use Closure;
 use Filament\Actions\Action;
 use Filament\Actions\Concerns\CanCustomizeProcess;
-use Filament\Forms\ComponentContainer;
+use Filament\Schemas\Schema;
 use Filament\Forms\Components\Field;
-use Filament\Forms\Components\Fieldset;
+use Filament\Schemas\Components\Fieldset;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
@@ -56,7 +56,7 @@ class ImportAction extends Action
 
         $this->groupedIcon('heroicon-s-plus');
 
-        $this->action(function (ComponentContainer $form): void {
+        $this->action(function (Schema $form): void {
             $model = $form->getModel();
 
             $this->process(function (array $data) use ($model) {
@@ -143,7 +143,7 @@ class ImportAction extends Action
                 ->required(! app()->environment('testing'))
                 ->acceptedFileTypes(config('filament-import.accepted_mimes'))
                 ->imagePreviewHeight('250')
-                ->reactive()
+                ->live()
                 ->disk($this->getTemporaryDisk())
                 ->directory($this->getTemporaryDirectory())
                 ->afterStateUpdated(function (callable $set, TemporaryUploadedFile $state) {
